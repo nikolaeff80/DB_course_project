@@ -9,6 +9,10 @@
  * Представление по "нелояльным" сообществам.
  * Представление по Обычному поиску 
  * В конце есть несколько примеров типовых запросов.
+ * 
+ * 
+ * Ссылка на ERDiagram
+ * https://drive.google.com/file/d/15-eTYv-7be898yAgOad9M1PkNuJJSuK-/view?usp=sharing
 */
 
 
@@ -487,6 +491,11 @@ select id,  concat(firstname,' ',secondname , ' ', lastname) as name, birth_date
 	join fact_address on profiles.citizen_id = fact_address.citizen_id
 	where citizens.id = profiles.citizen_id;
 
+	-- Находим "нелояльные" сообщества
+select communities.id, soc_net_id, communities.name, social_networks.soc_net_name
+from communities 
+	join social_networks on soc_net_id = social_networks.id
+where loyal_to_authority = 'disloyal';
 
 
 	-- Находим граждан моложе 18 лет
@@ -497,9 +506,4 @@ where  YEAR(CURDATE()) - YEAR(birth_date) < 18
 ;
 
 
-	-- Находим "нелояльные" сообщества
-select communities.id, soc_net_id, communities.name, social_networks.soc_net_name
-from communities 
-	join social_networks on soc_net_id = social_networks.id
-where loyal_to_authority = 'disloyal';
 
