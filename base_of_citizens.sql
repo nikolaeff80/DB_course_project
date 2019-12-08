@@ -12,13 +12,6 @@
 */
 
 
-
-
-
-
-
-
-
 drop database if exists base_of_citizens;
 create database base_of_citizens;
 use base_of_citizens;
@@ -510,24 +503,3 @@ from communities
 	join social_networks on soc_net_id = social_networks.id
 where loyal_to_authority = 'disloyal';
 
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
- 
-
-
-
-
--- select name from communities where loyal_to_authority = 'loyal';
