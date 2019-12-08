@@ -15,7 +15,6 @@
  * https://drive.google.com/file/d/15-eTYv-7be898yAgOad9M1PkNuJJSuK-/view?usp=sharing
 */
 
-
 drop database if exists base_of_citizens;
 create database base_of_citizens;
 use base_of_citizens;
@@ -31,8 +30,8 @@ create table citizens(
 	updated_at datetime default now() on update current_timestamp,
 	index (firstname, secondname, lastname)
 );
-ALTER TABLE base_of_citizens.citizens MODIFY COLUMN birth_date DATE NULL;
 
+ALTER TABLE base_of_citizens.citizens MODIFY COLUMN birth_date DATE NULL;
 
 drop table if exists profiles;
 create table profiles(
@@ -43,8 +42,6 @@ create table profiles(
 	phone varchar(12) unique,
 	created_at datetime default now(),
 	updated_at datetime default now(),
-	
-	
 	index (email),
 	index (phone)
 );
@@ -55,8 +52,6 @@ add constraint fk_citizen_id
 	on update cascade
 	on delete restrict
 ;
-
-
 
 drop table if exists passport;
 create table passport(
@@ -81,9 +76,9 @@ create table reg_address (
 	foreign key (citizen_id) references profiles(citizen_id) ON UPDATE CASCADE ON DELETE restrict,
 	created_at datetime default now(),
 	updated_at datetime default now(),
-	
 	index (city)
 );
+
 drop table if exists fact_address;
 create table fact_address (
 	citizen_id SERIAL primary key,
@@ -96,20 +91,15 @@ create table fact_address (
 	foreign key (citizen_id) references profiles(citizen_id) ON UPDATE CASCADE ON DELETE restrict,
 	created_at datetime default now(),
 	updated_at datetime default now(),
-	
 	index (city)
 );
-
 
 drop table if exists social_networks;
 create table social_networks(
 	id SERIAL primary key,
 	soc_net_name varchar(255),
-		
 	index (soc_net_name)
-
 );
-
 
 drop table if exists communities;
 create table communities (
@@ -119,7 +109,6 @@ create table communities (
 	link_to_community text, 
 	loyal_to_authority enum('loyal', 'disloyal', 'unknown'),
 	foreign key (soc_net_id) references social_networks(id) ON UPDATE CASCADE ON DELETE restrict,
-	
 	index (name)
 );
 
@@ -131,38 +120,30 @@ create table citizens_communities (
 	foreign key (community_id) references communities(id) ON UPDATE CASCADE ON DELETE restrict,
 	created_at datetime default now(),
 	updated_at datetime default now()
-	
 );
 
 drop table if exists photos;
 create table photos(
 	id SERIAL primary key,
 	photos_id varchar(100) unique,
-	
 	foreign key (id) references profiles(citizen_id) ON UPDATE CASCADE ON DELETE restrict
-	 
 );
 
 drop table if exists bank_list;
 create table bank_list(
 	id serial primary key,
 	bank_name varchar(255),
-	
 	index (bank_name)
-
-)
-;
+);
 
 drop table if exists bank_accounts;
 create table bank_accounts(
 	id serial primary key,
 	bank_id bigint unsigned not null,
 	account_num varchar(14) unique,
-	
 	foreign key (id) references profiles(citizen_id) ON UPDATE CASCADE ON DELETE restrict,
 	foreign key (bank_id) references bank_list(id) ON UPDATE CASCADE ON DELETE restrict
-)
-;
+);
 
 	-- Скрипты наполнения базы данных. Все данные и имена являются вымышленными, любые совпадения случайны.
 
@@ -306,7 +287,6 @@ INSERT INTO `communities` (`soc_net_id`, `name`, `link_to_community`, `loyal_to_
 (4, 'Новая газета', 'https://www.facebook.com/novgaz/?__tn__=kC-R&eid=ARCq4Vz1ksCLtSxGh2Sh9Aj_UmVFro7ZIhnhwyPF9JRi328iugmElJKHU51yPfp_HujlaFzKEeYuDab1&hc_ref=ARSc0CSWFcjcQbV0rXYlEEL0lROHm9tL1I6uBt255tiwLNwTg6ZH1FZgt0CGfFxajWg&fref=nf&__xts__[0]=68.ARA44JOZSSe6xCXkBmdbyiTGAba_6VvDpqqdTogTNGKN-N7Jcan4emp09kMYpSY9YvHNJBwdDdY4-LW_gOYUwgv3xSyCwDP0vpel79NZ9v_pj9I8jc4B4Jm9A31uAQ5H75dz5_5Jk-y6iWhwiECl3oz8FKAAX-C52er3NeswdxmJan5QoorKdRxjAhPQp9Y9SheFYSjyD9sTdxTil8Rc5E4pNw57VZC0ZfZ-oYq_-4HHWWAvWsmATc-QVCIcgWNr0p-r65N_4SmqGiuwRwZIio2iDK02PG8OoYweWuaGVE2sSvahsOC-AzpuAbP5PFrynDEXuOqhuUGk7ey2CmCdcepwrF6q-1jFePaWR_gcHsZh3ECSy1WpFn88', 'disloyal'),
 (4, 'Политическая карикатура. И не только', 'https://www.facebook.com/groups/igor.funt.pictures/', 'disloyal')
 ;
-
 
 insert into citizens_communities (`cit_id`, `community_id`) values
 ('1', '1'),
